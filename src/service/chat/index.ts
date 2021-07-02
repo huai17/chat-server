@@ -1,16 +1,23 @@
 import { Server as HttpServer } from "http";
-import { Socket, Server, ServerOptions } from "socket.io";
+import { Server, ServerOptions } from "socket.io";
+import { ListenEvents } from "./types";
+import { hookJoinEvent } from "./join";
+import { hookLeaveEvent } from "./leave";
+import { hookMessageEvent } from "./message";
 
 export const hookChatService = (
   srv: HttpServer,
   opt: Partial<ServerOptions> = {}
-): Server => {
-  const io = new Server(srv, { path: "/chat-service/", ...opt });
+): Server<ListenEvents> => {
+  const io = new Server<ListenEvents>(srv, { path: "/chat-service/", ...opt });
 
-  return io.on("connection", (socket: Socket) => {
+  return io.on("connection", (socket) => {
     // init socket data
     socket.data = { name: null, room: null };
 
-    // hook listeners
+    // hook events
+    hookJoinEvent(socket);
+    hookLeaveEvent(socket);
+    hookMessageEvent(socket);
   });
 };
