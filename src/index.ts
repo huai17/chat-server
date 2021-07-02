@@ -4,7 +4,7 @@ import { createChatServer } from "./service/server";
 const PORT = 5566;
 
 // server setup
-const srv = createChatServer();
+const srv = createChatServer({ cors: { origin: "*" } });
 
 // start the server
 srv.listen(PORT, () => {
