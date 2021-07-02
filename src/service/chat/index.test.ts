@@ -1,7 +1,7 @@
 import { hookChatService } from "./index";
 import { createServer, Server as HttpServer } from "http";
 import { AddressInfo } from "net";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 describe("chat service", () => {
   let srv: HttpServer;
@@ -22,6 +22,7 @@ describe("chat service", () => {
 
 describe("connected socket", () => {
   let srv: HttpServer;
+  let client: Socket;
 
   beforeAll(() => {
     srv = createServer();
@@ -29,13 +30,14 @@ describe("connected socket", () => {
 
   afterAll(() => {
     srv.close();
+    client.close();
   });
 
   test("should be set to default", (done) => {
     const chatSrv = hookChatService(srv);
     srv.listen(() => {
       const { port } = srv.address() as AddressInfo;
-      const client = io(`http://localhost:${port}`, { path: "/chat-service/" });
+      client = io(`http://localhost:${port}`, { path: "/chat-service/" });
       client.on("connect", async () => {
         const sockets = await chatSrv.fetchSockets();
         const socket = sockets.find(({ id }) => id === client.id);
