@@ -1151,12 +1151,9 @@ describe("join new room", () => {
       "join",
       "name",
       "room",
-      (err: ChatError | null, members: { id: string; name: string }[]) => {
+      (err: ChatError | null, members: { [id: string]: string }) => {
         expect(err).toBeNull();
-        expect(members.length).toBe(1);
-        expect(
-          members.find(({ id, name }) => id === client.id && name === "name")
-        ).toMatchObject({ id: client.id, name: "name" });
+        expect(members).toMatchObject({ [client.id]: "name" });
         done();
       }
     );
@@ -1197,17 +1194,12 @@ describe("join existing room", () => {
       "join",
       "new name",
       "room",
-      (err: ChatError | null, members: { id: string; name: string }[]) => {
+      (err: ChatError | null, members: { [id: string]: string }) => {
         expect(err).toBeNull();
-        expect(members.length).toBe(2);
-        expect(
-          members.find(({ id, name }) => id === client.id && name === "name")
-        ).toMatchObject({ id: client.id, name: "name" });
-        expect(
-          members.find(
-            ({ id, name }) => id === newClient.id && name === "new name"
-          )
-        ).toMatchObject({ id: newClient.id, name: "new name" });
+        expect(members).toMatchObject({
+          [client.id]: "name",
+          [newClient.id]: "new name",
+        });
         done();
       }
     );

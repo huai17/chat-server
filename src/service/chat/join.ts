@@ -23,7 +23,14 @@ export const hookJoinEvent = (
     socket.to(room).emit("joined", socket.id, name);
     // fetch room members
     const sockets = await io.in(socket.data.room).fetchSockets();
-    const members = sockets.map(({ id, data: { name } }) => ({ id, name }));
+    // create member map
+    const members: { [id: string]: string } = {};
+    for (const {
+      id,
+      data: { name },
+    } of sockets)
+      members[id] = name;
+
     // callback
     if (typeof cb === "function") cb(null, members);
   });
