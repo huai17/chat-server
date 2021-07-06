@@ -4,6 +4,7 @@ import { ListenEvents, EmitEvents } from "./types";
 import { hookJoinEvent } from "./join";
 import { hookLeaveEvent } from "./leave";
 import { hookMessageEvent } from "./message";
+import { hookDisconnectingEvent } from "./disconnecting";
 
 export const hookChatService = (
   srv: HttpServer,
@@ -22,5 +23,6 @@ export const hookChatService = (
     hookJoinEvent(socket, io);
     hookLeaveEvent(socket);
     hookMessageEvent(socket);
+    hookDisconnectingEvent(socket);
   });
 };
