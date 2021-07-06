@@ -6,7 +6,7 @@ import { AddressInfo } from "net";
 import { Server, Socket as ServerSocket } from "socket.io";
 import { io, Socket } from "socket.io-client";
 
-describe("join event", () => {
+describe("leave event", () => {
   let httpServer: HttpServer;
   let srv: Server;
 
