@@ -1,6 +1,5 @@
 import { hookDisconnectingEvent } from "./disconnecting";
 import { hookJoinEvent } from "./join";
-import { ChatError } from "./types";
 import { createServer, Server as HttpServer } from "http";
 import { AddressInfo } from "net";
 import { Server } from "socket.io";
