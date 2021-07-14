@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon",
-    "test": "jest --coverage",
+    "test": "jest --watchAll",
     "build": "tsc",
     "start": "node ./build/index.js"
   },

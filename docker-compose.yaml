@@ -1,7 +1,7 @@
 version: "3.9"
 services:
-  server:
+  prod:
     restart: always
     build: .
     ports:
-      - "5566:5566"
+      - 5566:5566
